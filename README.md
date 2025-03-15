@@ -36,8 +36,8 @@ This project consists of three interactive web applications developed using Dash
 ## How to Run the Project
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repository-link.git
-   cd your-project-directory
+   git clone https://github.com/Severus-193/ENERGY_INSIGHTS_USING_SARIMA.git
+   cd ENERGY_INSIGHTS_USING_SARIMA.git
    ```
 
 2. Run each Dash application separately:
