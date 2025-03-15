@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TANGEDCO Electricity Bill Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #0073e6;
+        }
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .calculator input {
+            grid-column: span 4;
+            padding: 10px;
+            font-size: 18px;
+            text-align: right;
+            border: 1px solid #ccc;
+        }
+        .calculator button {
+            padding: 20px;
+            font-size: 18px;
+            background-color: #0073e6;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .calculator button:hover {
+            background-color: #005bb5;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e6f7ff;
+            border-left: 4px solid #0073e6;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TANGEDCO Electricity Bill Calculator</h1>
+        <div class="calculator">
+            <input type="text" id="display" oninput="validateInput()" onkeypress="triggerCalculation(event)">
+            <button onclick="appendNumber(7)">7</button>
+            <button onclick="appendNumber(8)">8</button>
+            <button onclick="appendNumber(9)">9</button>
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendNumber(4)">4</button>
+            <button onclick="appendNumber(5)">5</button>
+            <button onclick="appendNumber(6)">6</button>
+            <button onclick="deleteLast()">←</button>
+            <button onclick="appendNumber(1)">1</button>
+            <button onclick="appendNumber(2)">2</button>
+            <button onclick="appendNumber(3)">3</button>
+            <button onclick="calculateBill()" style="grid-row: span 2;">Calculate</button>
+            <button onclick="appendNumber(0)" style="grid-column: span 2;">0</button>
+            <button onclick="appendDot()">.</button>
+        </div>
+        <div id="result" class="result" style="display:none;"></div>
+        <table id="slabTable" style="display:none;">
+            <thead>
+                <tr>
+                    <th>From Unit</th>
+                    <th>To Unit</th>
+                    <th>Units</th>
+                    <th>Rate (₹)</th>
+                    <th>Amount (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>100</td><td>100</td><td>0</td><td>0</td></tr>
+                <tr><td>101</td><td>400</td><td>300</td><td>4.70</td><td>1410</td></tr>
+                <tr><td>401</td><td>500</td><td>100</td><td>6.30</td><td>630</td></tr>
+                <tr><td>501</td><td>600</td><td>100</td><td>8.40</td><td>840</td></tr>
+                <tr><td>601</td><td>800</td><td>200</td><td>9.45</td><td>1890</td></tr>
+                <tr><td>801</td><td>1000</td><td>200</td><td>10.50</td><td>2100</td></tr>
+                <tr><td>1001</td><td>1001+</td><td></td><td>11.55</td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function appendNumber(number) {
+            const display = document.getElementById('display');
+            display.value += number;
+        }
+
+        function appendDot() {
+            const display = document.getElementById('display');
+            if (!display.value.includes('.')) {
+                display.value += '.';
+            }
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function deleteLast() {
+            const display = document.getElementById('display');
+            display.value = display.value.slice(0, -1);
+        }
+
+        function validateInput() {
+            const display = document.getElementById('display');
+            display.value = display.value.replace(/[^0-9.]/g, '');
+        }
+
+        function triggerCalculation(event) {
+            if (event.key === 'Enter') {
+                calculateBill();
+            }
+        }
+
+        function calculateBill() {
+            let kwh = parseFloat(document.getElementById('display').value);
+            let cost = 0;
+            let explanation = '';
+            let slabs = [
+                { from: 1, to: 100, rate: 0 },
+                { from: 101, to: 400, rate: 4.70 },
+                { from: 401, to: 500, rate: 6.30 },
+                { from: 501, to: 600, rate: 8.40 },
+                { from: 601, to: 800, rate: 9.45 },
+                { from: 801, to: 1000, rate: 10.50 },
+                { from: 1001, to: Infinity, rate: 11.55 }
+            ];
+
+            if (isNaN(kwh) || kwh < 0) {
+                explanation = "Please enter a valid number of kilowatt-hours.";
+            } else {
+                let remainingKwh = kwh;
+                let totalCost = 0;
+                let slabDetails = '';
+
+                for (let i = 0; i < slabs.length; i++) {
+                    let slab = slabs[i];
+                    if (remainingKwh > 0) {
+                        let slabUnits = Math.min(slab.to - slab.from + 1, remainingKwh);
+                        let slabCost = slabUnits * slab.rate;
+                        totalCost += slabCost;
+                        remainingKwh -= slabUnits;
+
+                        slabDetails += `<tr>
+                            <td>${slab.from}</td>
+                            <td>${slab.to === Infinity ? 'Above 1001' : slab.to}</td>
+                            <td>${slabUnits}</td>
+                            <td>${slab.rate}</td>
+                            <td>${slabCost.toFixed(2)}</td>
+                        </tr>`;
+                    } else {
+                        break;
+                    }
+                }
+
+                cost = totalCost.toFixed(2);
+                explanation = "The calculation is based on the following slabs:";
+
+                document.querySelector('#slabTable tbody').innerHTML = slabDetails;
+                document.getElementById('slabTable').style.display = 'table';
+            }
+
+            document.getElementById('result').innerHTML = `<p>Total cost: ₹${cost}</p><p>${explanation}</p>`;
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

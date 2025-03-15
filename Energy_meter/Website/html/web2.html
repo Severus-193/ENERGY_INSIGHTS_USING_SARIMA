@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Savings Calculator</title>
+    <link rel="stylesheet" href="web2.css">
+</head>
+<body>
+    <header>
+        <h1>Electricity Savings Calculator</h1>
+    </header>
+    <main>
+        <section id="savings-calculator">
+            <h2>Calculate Your Savings</h2>
+            <form id="savingsForm">
+                <label for="currentUsage">Current Daily Usage (kWh):</label>
+                <input type="number" id="currentUsage" placeholder="Enter current usage" required>
+                
+                <label for="potentialUsage">Potential Daily Usage (kWh):</label>
+                <input type="number" id="potentialUsage" placeholder="Enter potential usage" required>
+                
+                <label for="rate">Electricity Rate ($/kWh):</label>
+                <input type="number" id="rate" placeholder="Enter electricity rate" step="0.01" required>
+                
+                <button type="submit">Calculate Savings</button>
+            </form>
+            <div id="savingsOutput"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Electricity Savings Calculator</p>
+    </footer>
+    <script src="web2.js"></script>
+</body>
+</html>

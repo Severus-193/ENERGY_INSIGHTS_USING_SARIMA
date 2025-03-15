@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Usage Dashboard</title>
+    <link rel="stylesheet" href="web3.css">
+</head>
+<body>
+    <header>
+        <h1>Electricity Usage Dashboard</h1>
+    </header>
+    <main>
+        <section id="real-time">
+            <h2>Real-Time Usage</h2>
+            <div id="currentUsage">
+                <img src="https://i.pngimg.me/thumb/f/720/comhiclipartsbtra.jpg" alt="Current Usage Icon" class="dashboard-icon">
+                <div id="usageDisplay">Loading...</div>
+            </div>
+        </section>
+        <section id="history">
+            <h2>Usage History</h2>
+            <canvas id="usageChart"></canvas>
+        </section>
+        <section id="tips">
+            <h2>Energy Saving Tips</h2>
+            <img src="https://c1.wallpaperflare.com/preview/660/739/814/light-bulb-idea-self-employed-incidence.jpg" alt="Energy Saving Tips" class="tips-image" style="width: 100%;height: 400px;">
+            <ul style="margin-left: 20px;">
+                <li>Turn off lights when not in use.</li>
+                <li>Unplug devices when they're not being used.</li>
+                <li>Use energy-efficient appliances.</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Electricity Dashboard</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="web3.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Consumption Tracker</title>
+    <link rel="stylesheet" href="web1.css">
+</head>
+<body>
+    <header>
+        <h1>Electricity Consumption Tracker</h1>
+    </header>
+    <main>
+        <section id="tracker">
+            <h2>Track Your Consumption</h2>
+            <form id="trackerForm">
+                <label for="dailyUsage">Daily Usage (kWh):</label>
+                <input type="number" id="dailyUsage" placeholder="Enter daily usage" required>
+                <button type="submit">Submit</button>
+            </form>
+            <div id="output"></div>
+        </section>
+        <section id="history">
+            <h2>Usage History</h2>
+            <div id="chart"></div>
+        </section>
+        <section id="tips">
+            <h2>Energy Saving Tips</h2>
+            <ul>
+                <li>Turn off lights when not in use.</li>
+                <li>Unplug devices when they're not being used.</li>
+                <li>Use energy-efficient appliances.</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Electricity Tracker</p>
+    </footer>
+    <script src="web1.js"></script>
+</body>
+</html>
